@@ -5,16 +5,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
-@Controller
+@RestController
 public class HomeController {
     @Autowired
     VirusDataService virusDataService;
 
     @GetMapping("/")
-    public String home(Model model){
-        model.addAttribute("locations",virusDataService.getAllStats());
-        model.addAttribute("totalReportedCases",virusDataService.getTotal_deaths());
-        return "home";
+    public ModelAndView home(){
+        ModelAndView model = new ModelAndView();
+        model.setViewName("home");
+        model.addObject("locations",virusDataService.getAllStats());
+        model.addObject("totalReportedCases",virusDataService.getTotal_deaths());
+        return model;
     }
 }
